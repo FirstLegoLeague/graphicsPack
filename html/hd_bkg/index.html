@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <link rel="stylesheet" href="hd_bkg.css">
+    <script>
+        function getLowerThird() {
+            return document.getElementById('lowThird');
+        }
+        function showLowerThird() {
+            getLowerThird().className = 'visible';
+        }
+        function hideLowerThird() {
+            getLowerThird().className = '';
+        }
+    </script>
 </head>
 <body>
     <h1>H1 header text</h1>
@@ -15,8 +26,17 @@
             <li>With some</li>
             <li>Items</li>
         </ul>
+        <p>
+            <button onclick="showLowerThird()">Show lower third</button>
+            <button onclick="hideLowerThird()">Hide lower third</button>
+        </p>
     </section>
     <!-- decorative items -->
     <div id="label"></div>
+    <!-- lower third -->
+    <div id="lowThird">
+        Some running text<br>
+        Second line of text
+    </div>
 </body>
 </html>
