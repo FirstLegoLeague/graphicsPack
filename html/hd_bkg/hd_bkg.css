@@ -1,41 +1,48 @@
 @import url('fonts/BigBoned.css');
+@import url('fonts/foco.css');
 
 html {
     background-image: url('hd_bkg.png');
+    background-size: cover;
     margin: 0;
     padding: 0;
     height: 100%;
+
 }
 
 body {
     height: 100%;
-    padding: 60px 160px;
+    padding: 3.1% 8.3%;
     box-sizing: border-box;
     margin: 0;
     position: relative;
+    font-size: 16px;
 }
 
 body > h1 {
     font-family: BigBoned;
     font-size: 100px;
-    margin: 0.67em 0;
+    margin: 4% 0 0 0;
+    height: 20%;
     color: #0066b3;
 }
 
 body > section {
     /*background-color: red;*/
     color: white;
-    padding: 40px;
-    font-size: 32px;
+    padding: 1.3% 2.6%;
+    font-size: 200%;
+    font-family: foco;
 }
 
 div#label {
     position: absolute;
-    bottom: 20px;
-    left: -40px;
+    bottom: 2.1%;
+    left: -2.5%;
     background-image: url('label.png');
-    width: 364px;
-    height: 390px;
+    background-size: cover;
+    width: 18.9%;
+    height: 36.1%;
   -webkit-animation-name: rotate;
   -webkit-animation-duration: 2s;
   -webkit-animation-iteration-count: infinite;
