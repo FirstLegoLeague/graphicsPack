@@ -1,0 +1,51 @@
+@import url('fonts/BigBoned.css');
+
+html {
+    background-image: url('hd_bkg.png');
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    padding: 60px 160px;
+    box-sizing: border-box;
+    margin: 0;
+    position: relative;
+}
+
+body > h1 {
+    font-family: BigBoned;
+    font-size: 100px;
+    margin: 0.67em 0;
+    color: #0066b3;
+}
+
+body > section {
+    /*background-color: red;*/
+    color: white;
+    padding: 40px;
+    font-size: 32px;
+}
+
+div#label {
+    position: absolute;
+    bottom: 20px;
+    left: -40px;
+    background-image: url('label.png');
+    width: 364px;
+    height: 390px;
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  -webkit-transform-origin: 0 0;
+  -webkit-animation-timing-function:ease-in-out; /* or make your custom easing */
+}
+
+
+@-webkit-keyframes rotate {
+  0%   { -webkit-transform: rotate(0deg); }
+  100%  { -webkit-transform: rotate(3deg); }
+}​
