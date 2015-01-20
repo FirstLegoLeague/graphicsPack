@@ -1,3 +1,5 @@
-optimized for HD resolution, but scalable
+Optimized for HD resolution, but scalable
 
-TODO: make icons pop in as ideas randomly around globe, then fade away
+The Foco font used is not an open source font, hence not included in this repo. For FLL BNL implementations and internal use only, the font is available.
+
+Mix and match elements from the html as desired.
