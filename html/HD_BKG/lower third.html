@@ -5,6 +5,26 @@
     <title>Document</title>
     <link rel="stylesheet" href="lowThird.css">
     <script>
+        var ws = new WebSocket("ws://192.168.0.25:13900"); 
+        ws.onopen=function() { 
+            console.log("open"); 
+            ws.send(JSON.stringify({
+                type: "subscribe", 
+                node: "queue" 
+            }));
+        }; 
+        ws.onerror=function(e){
+            console.log("error", e); 
+        }; 
+        ws.onmessage=function(d) {
+            var data = JSON.parse(d.data);
+            console.log(data);
+            setText(data.topic,data.data);
+        }; 
+        ws.onclose = function() {
+            console.log("close"); 
+        };
+        var visible = false;
         function getLowerThird() {
             return document.getElementById('lowThird');
         }
@@ -14,6 +34,20 @@
         function hideLowerThird() {
             getLowerThird().className = '';
         }
+        function setText(txt1,txt2) {
+            getLowerThird().innerHTML = '<b>'+txt1+'</b><br>'+txt2;
+        }
+        function next() {
+            visible ? hideLowerThird() : showLowerThird();
+        }
+        function stop() {
+            hideLowerThird();
+        }
+        function play() {
+            showLowerThird();
+        }
+
+
     </script>
 </head>
 <body>
