@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="hd_bkg.css">
+    <script src="js/angular.min.js"></script>
+    <script>
+        angular.module('results',[]).controller('resultController',function resultController($scope,$http,$interval) {
+            var url = 'http://localhost:1390/scores';
+
+            $scope.round = 'bar';
+            $scope.rounds = {};
+            $scope.currentRound = -1;
+
+            function load() {
+                return $http.get(url).then(function(response) {
+                    $scope.rounds = response.data;
+                    $scope.roundNames = Object.keys($scope.rounds);
+                    console.log($scope.rounds,$scope.roundNames);
+                });
+            }
+
+            function page() {
+                $scope.currentRound += 1;
+                $scope.currentRound %= $scope.roundNames.length;
+                var round = $scope.roundNames[$scope.currentRound];
+                $scope.round = 'Ronde '+round;
+                $scope.scores = $scope.rounds[round];
+                console.log($scope.currentRound,$scope.scores);
+            }
+
+            //refresh every 30 seconds
+            $interval(load,30000);
+
+            //turn the page every 5 seconds
+            $interval(page,5000);
+
+            //initialize
+            load().then(page);
+        });
+    </script>
+</head>
+<body ng-app="results" ng-controller="resultController">
+    <h1>{{round}}</h1>
+    <!-- put one section element around the main content -->
+    <section>
+        <ul ng-repeat="score in scores track by $index">
+            <li>{{score.teamNumber}} {{score.team.name}} {{score.score}}</li>
+        </ul>
+    </section>
+    <!-- decorative items -->
+    <div id="label"></div>
+</body>
+</html>
