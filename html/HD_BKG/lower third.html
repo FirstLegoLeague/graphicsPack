@@ -5,37 +5,56 @@
     <title>Document</title>
     <link rel="stylesheet" href="lowThird.css">
     <script>
-        var ws = new WebSocket("ws://192.168.0.25:13900"); 
-        ws.onopen=function() { 
-            console.log("open"); 
+        var ws = new WebSocket("ws://192.168.0.109:13900");
+        ws.onopen=function() {
+            console.log("open");
             ws.send(JSON.stringify({
-                type: "subscribe", 
-                node: "queue" 
+                type: "subscribe",
+                node: "queue"
             }));
-        }; 
+        };
         ws.onerror=function(e){
-            console.log("error", e); 
-        }; 
+            console.log("error", e);
+        };
         ws.onmessage=function(d) {
             var data = JSON.parse(d.data);
             console.log(data);
-            setText(data.topic,data.data);
-        }; 
+            switch(data.topic) {
+                case 'messageBar': setText(data.data[0],data.data[1]); break;
+                case "command": doCommand(data.data); break;
+            }
+        };
         ws.onclose = function() {
-            console.log("close"); 
+            console.log("close");
         };
         var visible = false;
         function getLowerThird() {
             return document.getElementById('lowThird');
         }
+        var timer;
         function showLowerThird() {
             getLowerThird().className = 'visible';
+            if (timer) {
+                clearTimeout(timer);
+                timer = null;
+            }
+        }
+        function showThenHideLowerThird() {
+            showLowerThird();
+            timer = setTimeout(hideLowerThird,5000);
         }
         function hideLowerThird() {
             getLowerThird().className = '';
         }
         function setText(txt1,txt2) {
-            getLowerThird().innerHTML = '<b>'+txt1+'</b><br>'+txt2;
+            getLowerThird().innerHTML = '<b>'+(txt1||'')+'</b><br>'+(txt2||'');
+        }
+        function doCommand(cmd) {
+            switch(cmd) {
+                case 'show': showLowerThird(); break;
+                case 'showThenHide': showThenHideLowerThird(); break;
+                case 'hide': hideLowerThird(); break;
+            }
         }
         function next() {
             visible ? hideLowerThird() : showLowerThird();
@@ -51,8 +70,8 @@
     </script>
 </head>
 <body>
-    <button onclick="showLowerThird()">Show lower third</button>
-    <button onclick="hideLowerThird()">Hide lower third</button>
+    <!-- <button onclick="showLowerThird()">Show lower third</button> -->
+    <!-- <button onclick="hideLowerThird()">Hide lower third</button> -->
     <!-- lower third -->
     <div id="lowThird">
         Some running text<br>
