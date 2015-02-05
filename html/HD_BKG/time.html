@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Time</title>
+    <link rel="stylesheet" type="text/css" href="time.css">
+</head>
+<body>
+    <div id="time">12:00</div>
+    <script type="text/javascript">
+        function pad(nr) {
+            return ((nr<10)?'0':'')+nr;
+        }
+
+        function time() {
+            var now = new Date();
+            var hh = pad(now.getHours());
+            var mm = pad(now.getMinutes());
+            document.getElementById('time').innerHTML = hh+':'+mm;
+            window.setTimeout(time,500);
+        }
+
+        time();
+    </script>
+</body>
+</html>
