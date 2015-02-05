@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="lowThird.css">
+    <script>
+        var ws = new WebSocket("ws://192.168.0.109:13900");
+        ws.onopen=function() {
+            console.log("open");
+            ws.send(JSON.stringify({
+                type: "subscribe",
+                node: "queue"
+            }));
+        };
+        ws.onerror=function(e){
+            console.log("error", e);
+        };
+        ws.onmessage=function(d) {
+            var data = JSON.parse(d.data);
+            console.log(data);
+            switch(data.topic) {
+                case 'messageBar': lowThird.set(data.data.main,data.data.sub); break;
+                case "announcement:hide": 
+                    lowThird.command('hide'); 
+                    lowThird.showThenHide();
+                break;
+                case "announcement:show": 
+                    lowThird.set(data.data.main,data.data.sub); 
+                    lowThird.showThenHide();
+                break;
+            }
+        };
+        ws.onclose = function() {
+            console.log("close");
+        };
+        
+        function next() {
+            lowThird.toggle();
+        }
+        function stop() {
+            lowThird.hide();
+        }
+        function play() {
+            lowThird.show();
+        }
+
+    </script>
+</head>
+<body>
+    <!-- <button onclick="showLowerThird()">Show lower third</button> -->
+    <!-- <button onclick="hideLowerThird()">Hide lower third</button> -->
+    <!-- lower third -->
+    <div id="lowThird">
+        Some running text<br>
+        Second line of text
+    </div>
+</body>
+</html>

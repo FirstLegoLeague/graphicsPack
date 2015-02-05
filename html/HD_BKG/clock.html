@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Time</title>
-    <link rel="stylesheet" type="text/css" href="time.css">
+    <title>Clock</title>
+    <link rel="stylesheet" type="text/css" href="clock.css">
 </head>
 <body>
-    <div id="time">12:00</div>
-    <script src="time.js"></script>
+    <div id="clock" class="hidden">02:30</div>
+    <script src="clock.js"></script>
     <script>
         //socket stuff
         var ws = new WebSocket("ws://192.168.3.110:13900");
@@ -21,13 +21,16 @@
         };
         ws.onmessage=function(d) {
             var data = JSON.parse(d.data);
-            // console.log(data);
+            console.log(data);
             switch(data.topic) {
                 case 'messageBar': setText(data.data[0],data.data[1]); break;
                 case 'command': doCommand(data.data); break;
-                case 'time:tick': time.set(data.data.timestamp); break;
-                case 'time:show': time.show(); break;
-                case 'time:hide': time.hide(); break;
+                // case 'time:tick': time.set(data.data); break;
+                // case 'time:show': time.show(); break;
+                // case 'time:hide': time.hide(); break;
+                case 'clock:arm': clock.arm(data.data.countdown); break;
+                case 'clock:start': clock.start(null,data.data.countdown); break;
+                case 'clock:stop': clock.stop(); break;
             }
         };
         ws.onclose = function() {

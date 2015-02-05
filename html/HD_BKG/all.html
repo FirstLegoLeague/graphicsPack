@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Overlay</title>
+    <link rel="stylesheet" type="text/css" href="clock.css">
+    <link rel="stylesheet" type="text/css" href="time.css">
+    <link rel="stylesheet" type="text/css" href="lowThird.css">
+</head>
+<body>
+    <div id="clock" class="hidden">02:30</div>
+    <div id="time">12:00</div>
+    <div id="lowThird">
+        Some running text<br>
+        Second line of text
+    </div>
+
+    <script src="clock.js"></script>
+    <script src="time.js"></script>
+    <script src="lowThird.js"></script>
+    <script>
+        //socket stuff
+        var ws = new WebSocket("ws://192.168.3.110:13900");
+        ws.onopen=function() {
+            ws.send(JSON.stringify({
+                type: "subscribe",
+                node: "overlay"
+            }));
+        };
+        ws.onerror=function(e){
+            console.log("error", e);
+        };
+        ws.onmessage=function(d) {
+            var data = JSON.parse(d.data);
+            console.log(data);
+            switch(data.topic) {
+                case 'messageBar': lowThird.set(data.data.main,data.data.sub); break;
+                case "announcement:hide": 
+                    lowThird.command('hide'); 
+                    lowThird.showThenHide();
+                break;
+                case "announcement:show": 
+                    lowThird.set(data.data.main,data.data.sub); 
+                    lowThird.showThenHide();
+                break;
+                case 'time:tick': time.set(data.data.timestamp); break;
+                case 'time:show': time.show(); break;
+                case 'time:hide': time.hide(); break;
+                case 'clock:arm': clock.arm(data.data.countdown); break;
+                case 'clock:start': clock.start(null,data.data.countdown); break;
+                case 'clock:stop': clock.stop(); break;
+            }
+        };
+        ws.onclose = function() {
+            console.log("close");
+        };
+
+
+        
+    </script>
+</body>
+</html>

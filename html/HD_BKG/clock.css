@@ -1,0 +1,28 @@
+@import url('fonts/lcd-bold.css');
+
+#clock {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    color: white;
+    font-size: 96px;
+    font-family: lcdbold;
+    /*text-shadow: 0 0 0 0.05em black;*/
+    color: yellow;
+    -webkit-text-fill-color: yellow; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    transition: top 1s;
+}
+
+#clock.hidden {
+    top: -2em;
+}
+#clock.stopped {
+    color: red;
+    -webkit-text-fill-color: red; 
+}
+#clock.armed {
+    color: blue;
+    -webkit-text-fill-color: blue; 
+}
