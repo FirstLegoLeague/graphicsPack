@@ -4,6 +4,7 @@ var clock = (function() {
     var bgColor = 'black';
     var state = 'stopped';
     var time = 150000;
+    var pauseTime = false;
     var armTime = 150;
     var tenths = false;
     var size = 340;

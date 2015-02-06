@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="twitter.css">
 </head>
 <body>
-    <div id="twitter"><span class="container"></span></div>
+    <div id="twitter" class="hidden"><span class="container"></span></div>
     <script src="socketConfig.js"></script>
     <script src="twitter.js"></script>
     <script>
@@ -22,23 +22,7 @@
         };
         ws.onmessage=function(d) {
             var data = JSON.parse(d.data);
-            // console.log(data);
             switch(data.topic) {
-                // case 'messageBar': lowThird.set(data.data.main,data.data.sub); break;
-                // case "announcement:hide": 
-                //     lowThird.command('hide'); 
-                //     lowThird.showThenHide();
-                // break;
-                // case "announcement:show": 
-                //     lowThird.set(data.data.main,data.data.sub); 
-                //     lowThird.showThenHide();
-                // break;
-                // case 'time:tick': time.set(data.data.timestamp); break;
-                // case 'time:show': time.show(); break;
-                // case 'time:hide': time.hide(); break;
-                // case 'clock:arm': clock.arm(data.data.countdown); break;
-                // case 'clock:start': clock.start(null,data.data.countdown); break;
-                // case 'clock:stop': clock.stop(); break;
                 case 'twitter:show': twitter.show(); break;
                 case 'twitter:hide': twitter.hide(); break;
                 case 'twitter:add': twitter.add(data.data); break;

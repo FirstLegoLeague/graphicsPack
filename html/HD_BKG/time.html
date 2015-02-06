@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="time.css">
 </head>
 <body>
-    <div id="time">12:00</div>
+    <div id="time" class="hidden">12:00</div>
     <script src="socketConfig.js"></script>
     <script src="time.js"></script>
     <script>
@@ -22,10 +22,7 @@
         };
         ws.onmessage=function(d) {
             var data = JSON.parse(d.data);
-            // console.log(data);
             switch(data.topic) {
-                case 'messageBar': setText(data.data[0],data.data[1]); break;
-                case 'command': doCommand(data.data); break;
                 case 'time:tick': time.set(data.data.timestamp); break;
                 case 'time:show': time.show(); break;
                 case 'time:hide': time.hide(); break;

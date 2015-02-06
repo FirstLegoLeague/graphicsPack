@@ -11,9 +11,9 @@ div#lowThird {
     background-image: url('lowthird.png');
     background-size: cover;
     position: absolute;
-    bottom: -35%;
     left: 0;
     width: 100%;
+    bottom: 0;
     height: 35%;
     transition: all 0.3s;
     padding: 8% 7% 2% 32%;
@@ -23,6 +23,6 @@ div#lowThird {
 
 }
 
-div#lowThird.visible {
-    bottom: 0;
+div#lowThird.hidden {
+    bottom: -35%;
 }
