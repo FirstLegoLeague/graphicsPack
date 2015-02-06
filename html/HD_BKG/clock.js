@@ -1,6 +1,7 @@
 var clock = (function() {
-	
-	var bgColor = 'black';
+    
+    var div;
+    var bgColor = 'black';
     var state = 'stopped';
     var time = 150000;
     var armTime = 150;
@@ -12,7 +13,7 @@ var clock = (function() {
     };
 
     function getClockDiv() {
-    	return document.getElementById('clock');
+        return div?div:(div=document.getElementById('clock'));
     }
 
     function pad(str) {
@@ -24,10 +25,10 @@ var clock = (function() {
     }
     
     function setTime(msec,hundreds) {
-    	if (msec < 0) {
-    		zero();
-    		return;
-    	}
+        if (msec < 0) {
+            zero();
+            return;
+        }
 
         var secs = Math.floor(msec/1000);
         var hsec = Math.floor((msec/100)) % 10;
@@ -40,9 +41,9 @@ var clock = (function() {
         }
         getClockDiv().innerHTML = str;
         getClockDiv().className = state;
-    };
+    }
 
-	var arm = function(countdown) {
+    var arm = function(countdown) {
         armTime = countdown||armTime;
         pauseTime = false;
         time = armTime*1000;
@@ -104,26 +105,26 @@ var clock = (function() {
             var startTime = (pauseTime||armTime);
             time = (startTime*1000) - (now - startStamp);
             if (time < 10000) {
-            	tenths = true;
+                tenths = true;
             }
             setTime(time,tenths);
-            window.setTimeout(tick,1);
+            window.requestAnimationFrame(tick);
         }
     };
 
     function show() {
-    	getClockDiv().className = state;
+        getClockDiv().className = state;
     }
 
     function hide() {
-    	getClockDiv().className = 'hidden stopped';
+        getClockDiv().className = 'hidden stopped';
     }
 
-	return {
-		start: start,
-		stop: stop,
-		arm: arm,
-		show: show,
-		hide: hide
-	};
+    return {
+        start: start,
+        stop: stop,
+        arm: arm,
+        show: show,
+        hide: hide
+    };
 }());

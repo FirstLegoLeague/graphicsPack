@@ -2,13 +2,14 @@
 var time = (function() {
 
     var offset = 0;
+    var div;
 
     function pad(nr) {
         return ((nr<10)?'0':'')+nr;
     }
 
     function getTimeDiv() {
-        return document.getElementById('time');
+        return div?div:(div=document.getElementById('time'));
     }
 
     function setMsgTime(timestamp) {
