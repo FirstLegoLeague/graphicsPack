@@ -8,8 +8,8 @@
     font-size: 96px;
     font-family: lcdbold;
     /*text-shadow: 0 0 0 0.05em black;*/
-    color: yellow;
-    -webkit-text-fill-color: yellow; /* Will override color (regardless of order) */
+    color: #ffd204;
+    -webkit-text-fill-color: #ffd204; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
     transition: top 1s;
@@ -20,9 +20,9 @@
 }
 #clock.stopped {
     color: red;
-    -webkit-text-fill-color: red; 
+    -webkit-text-fill-color: #c41425;
 }
 #clock.armed {
     color: blue;
-    -webkit-text-fill-color: blue; 
+    -webkit-text-fill-color: #0066b3;
 }
