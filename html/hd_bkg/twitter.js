@@ -117,6 +117,7 @@ var twitter = (function() {
         visibleTweets.shift();
         head = (head + 1) % tweets.length;
         offset -= firstWidth;
+        getContainer().style.transform = 'translateX('+ -offset +'px)';
         render();
     }
 
