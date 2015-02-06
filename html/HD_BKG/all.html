@@ -27,14 +27,19 @@
             var data = JSON.parse(d.data);
             console.log(data);
             switch(data.topic) {
-                case 'messageBar': lowThird.set(data.data.main,data.data.sub); break;
-                case "announcement:hide": 
-                    lowThird.command('hide'); 
-                    lowThird.showThenHide();
+                case "announcement:hide":
+                    lowThird.hide();
                 break;
-                case "announcement:show": 
-                    lowThird.set(data.data.main,data.data.sub); 
-                    lowThird.showThenHide();
+                case "announcement:queue":
+                    lowThird.set(data.data.main,data.data.sub);
+                break;
+                case "announcement:show":
+                    lowThird.set(data.data.main,data.data.sub);
+                    lowThird.show();
+                break;
+                case "announcement:persist":
+                    lowThird.set(data.data.main,data.data.sub);
+                    lowThird.persist();
                 break;
                 case 'time:tick': time.set(data.data.timestamp); break;
                 case 'time:show': time.show(); break;
