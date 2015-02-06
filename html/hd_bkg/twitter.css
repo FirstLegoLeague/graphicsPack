@@ -12,6 +12,7 @@
     font-family: foco;
     font-size: 32px;
     transition: bottom 0.3s;
+    height: 42px;
 }
 
 
@@ -21,8 +22,9 @@
 
 #twitter .container {
     white-space: nowrap;
-    display: inline-block;
+    display: block;
     font-size: 0;
+    position: absolute;
 }
 
 #twitter .author {

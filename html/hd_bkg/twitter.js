@@ -63,7 +63,8 @@ var twitter = (function() {
 
     function animate(dt) {
         offset += dt / 10;
-        getContainer().style.transform = 'translateX('+ -offset +'px)';
+        // getContainer().style.transform = 'translateX('+ -offset +'px)';
+        getContainer().style.left = -offset +'px';
 
         //add tweets if container too small
         if (containerWidth < screenWidth) {
@@ -117,7 +118,8 @@ var twitter = (function() {
         visibleTweets.shift();
         head = (head + 1) % tweets.length;
         offset -= firstWidth;
-        getContainer().style.transform = 'translateX('+ -offset +'px)';
+        // getContainer().style.transform = 'translateX('+ -offset +'px)';
+        getContainer().style.left = -offset +'px';
         render();
     }
 
