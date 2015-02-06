@@ -14,19 +14,9 @@
         Second line of text
     </div>
     <script src="socketConfig.js"></script>
+    <script src="socket.js"></script>
     <script src="lowThird.js"></script>
     <script>
-        var ws = new WebSocket(host);
-        ws.onopen=function() {
-            console.log("open");
-            ws.send(JSON.stringify({
-                type: "subscribe",
-                node: "queue"
-            }));
-        };
-        ws.onerror=function(e){
-            console.log("error", e);
-        };
         ws.onmessage=function(d) {
             var data = JSON.parse(d.data);
             console.log(data);
@@ -42,10 +32,7 @@
                 break;
             }
         };
-        ws.onclose = function() {
-            console.log("close");
-        };
-        
+
         function next() {
             lowThird.toggle();
         }

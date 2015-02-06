@@ -7,19 +7,9 @@
 <body>
     <div id="time" class="hidden">12:00</div>
     <script src="socketConfig.js"></script>
+    <script src="socket.js"></script>
     <script src="time.js"></script>
     <script>
-        //socket stuff
-        var ws = new WebSocket(host);
-        ws.onopen=function() {
-            ws.send(JSON.stringify({
-                type: "subscribe",
-                node: "overlay"
-            }));
-        };
-        ws.onerror=function(e){
-            console.log("error", e);
-        };
         ws.onmessage=function(d) {
             var data = JSON.parse(d.data);
             switch(data.topic) {
@@ -28,12 +18,6 @@
                 case 'time:hide': time.hide(); break;
             }
         };
-        ws.onclose = function() {
-            console.log("close");
-        };
-
-
-        
     </script>
 </body>
 </html>

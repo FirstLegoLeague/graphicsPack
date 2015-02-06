@@ -7,19 +7,9 @@
 <body>
     <div id="clock" class="hidden">02:30</div>
     <script src="socketConfig.js"></script>
+    <script src="socket.js"></script>
     <script src="clock.js"></script>
     <script>
-        //socket stuff
-        var ws = new WebSocket(host);
-        ws.onopen=function() {
-            ws.send(JSON.stringify({
-                type: "subscribe",
-                node: "overlay"
-            }));
-        };
-        ws.onerror=function(e){
-            console.log("error", e);
-        };
         ws.onmessage=function(d) {
             var data = JSON.parse(d.data);
             switch(data.topic) {
@@ -28,12 +18,6 @@
                 case 'clock:stop': clock.stop(); break;
             }
         };
-        ws.onclose = function() {
-            console.log("close");
-        };
-
-
-        
     </script>
 </body>
 </html>
