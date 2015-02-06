@@ -1,0 +1,28 @@
+#twitter {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1em;
+    overflow: hidden;
+}
+
+
+#twitter.hidden {
+    bottom: -100px;
+}
+
+#twitter .container {
+    white-space: nowrap;
+    display: inline-block;
+    font-size: 0;
+}
+
+#twitter .author {
+    font-weight: bold;
+}
+
+#twitter .tweet {
+    padding-right: 50px;
+    font-size: 14px;
+}
