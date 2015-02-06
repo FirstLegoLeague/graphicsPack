@@ -9,11 +9,14 @@
     overflow: hidden;
     background-color: #0066b3;
     color: white;
+    font-family: foco;
+    font-size: 32px;
+    transition: bottom 0.3s;
 }
 
 
 #twitter.hidden {
-    bottom: -100px;
+    bottom: -4em;
 }
 
 #twitter .container {
@@ -28,6 +31,5 @@
 
 #twitter .tweet {
     padding-right: 50px;
-    font-family: foco;
-    font-size: 16px;
+    font-size: 32px;
 }

@@ -12,7 +12,7 @@
     -webkit-text-fill-color: #ffd204; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
-    transition: top 1s;
+    transition: top 0.3s;
 }
 
 #clock.hidden {
