@@ -14,12 +14,13 @@
         Second line of text
     </div>
 
+    <script src="socketConfig.js"></script>
     <script src="clock.js"></script>
     <script src="time.js"></script>
     <script src="lowThird.js"></script>
     <script>
         //socket stuff
-        var ws = new WebSocket("ws://192.168.3.110:13900");
+        var ws = new WebSocket(host);
         ws.onopen=function() {
             ws.send(JSON.stringify({
                 type: "subscribe",

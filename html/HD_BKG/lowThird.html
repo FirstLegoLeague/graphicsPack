@@ -4,8 +4,19 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <link rel="stylesheet" href="lowThird.css">
+</head>
+<body>
+    <!-- <button onclick="showLowerThird()">Show lower third</button> -->
+    <!-- <button onclick="hideLowerThird()">Hide lower third</button> -->
+    <!-- lower third -->
+    <div id="lowThird">
+        Some running text<br>
+        Second line of text
+    </div>
+    <script src="socketConfig.js"></script>
+    <script src="lowThird.js"></script>
     <script>
-        var ws = new WebSocket("ws://192.168.0.109:13900");
+        var ws = new WebSocket(host);
         ws.onopen=function() {
             console.log("open");
             ws.send(JSON.stringify({
@@ -46,14 +57,5 @@
         }
 
     </script>
-</head>
-<body>
-    <!-- <button onclick="showLowerThird()">Show lower third</button> -->
-    <!-- <button onclick="hideLowerThird()">Hide lower third</button> -->
-    <!-- lower third -->
-    <div id="lowThird">
-        Some running text<br>
-        Second line of text
-    </div>
 </body>
 </html>
