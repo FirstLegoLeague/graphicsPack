@@ -4,14 +4,32 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <link rel="stylesheet" href="hd_bkg.css">
+    <style>
+        table {
+            width: 95%;
+            padding-left: 5%;
+            margin-top: 2%;
+        }
+        td {
+            padding: 4px 10px;
+
+        }
+    </style>
     <script src="js/angular.min.js"></script>
     <script>
-        angular.module('results',[]).controller('resultController',function resultController($scope,$http,$interval) {
+        angular.module('results',[]).run(function($http) {
+            $http.defaults.headers.common.Authorization = 'Basic ZmxsOmxlZ28='
+            
+        }).controller('resultController',function resultController($scope,$http,$interval) {
             var url = 'http://10.10.250.124:1390/scores';
+            var url = 'http://fll:lego@fll-scoring.cloudapp.net/scores';
 
             $scope.round = 'bar';
             $scope.rounds = {};
-            $scope.currentRound = -1;
+            $scope.currentRound = 0;
+            var head = -1;
+            var perPage  = 10;
+
 
             function load() {
                 return $http.get(url).then(function(response) {
@@ -22,11 +40,15 @@
             }
 
             function page() {
-                $scope.currentRound += 1;
-                $scope.currentRound %= $scope.roundNames.length;
+                if (head > $scope.roundNames[$scope.currentRound] - perPage ) {
+                    $scope.currentRound += 1;
+                    $scope.currentRound %= $scope.roundNames.length;
+                    head = 0;                
+                }
                 var round = $scope.roundNames[$scope.currentRound];
                 $scope.round = 'Ronde '+round;
-                $scope.scores = $scope.rounds[round];
+                $scope.scores = ($scope.rounds[round]||[]).slice(head, head + 10);
+                head + perPage;
                 console.log($scope.currentRound,$scope.scores);
             }
 
@@ -45,9 +67,13 @@
     <h1>{{round}}</h1>
     <!-- put one section element around the main content -->
     <section>
-        <ul ng-repeat="score in scores track by $index">
-            <li>{{score.teamNumber}} {{score.team.name}} {{score.score}}</li>
-        </ul>
+        <table>
+            <tr ng-repeat="score in scores track by $index">
+                <td>{{score.teamNumber}}</td>
+                <td>{{score.team.name}}</td>
+                <td>{{score.score}}</td>
+            </tr>
+        </table>
     </section>
     <!-- decorative items -->
     <div id="label"></div>
