@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Scoring</title>
     <link rel="stylesheet" href="hd_bkg.css">
+    <script src="js/angular.min.js"></script>
     <style>
         table {
             width: 95%;
@@ -12,24 +13,47 @@
         }
         td {
             padding: 4px 10px;
-
         }
     </style>
-    <script src="js/angular.min.js"></script>
     <script>
-        angular.module('results',[]).run(function($http) {
-            $http.defaults.headers.common.Authorization = 'Basic ZmxsOmxlZ28='
-            
-        }).controller('resultController',function resultController($scope,$http,$interval) {
-            var url = 'http://10.10.250.124:1390/scores';
-            var url = 'http://fll:lego@fll-scoring.cloudapp.net/scores';
+        angular.module('results',[]).controller('resultController',function resultController($scope,$http,$interval) {
+            var url = 'http://localhost:1390/scores';
+            var url = 'http://fll-scoring.cloudapp.net/scores';
+            var host = "ws://10.13.255.224:13900";
+            var ws = (function() {
+                var ws = new WebSocket(host);
+                ws.onopen=function() {
+                    ws.send(JSON.stringify({
+                        type: "subscribe",
+                        node: "overlay"
+                    }));
+                };
+                ws.onerror=function(e){
+                    console.log("error", e);
+                };
+                ws.onclose = function() {
+                    console.log("close");
+                };
 
-            $scope.round = 'bar';
+                return ws;
+            }());
+
+            ws.onmessage=function(d) {
+                var data = JSON.parse(d.data);
+                // console.log(data);
+                switch(data.topic) {
+                    case "scoring:update":
+                        update(data.data);
+                    break;
+                }
+            };
+
+            $scope.round = '';
             $scope.rounds = {};
+            $scope.roundNames = [];
             $scope.currentRound = 0;
             var head = -1;
-            var perPage  = 10;
-
+            var perPage = 10;
 
             function load() {
                 return $http.get(url).then(function(response) {
@@ -39,27 +63,46 @@
                 });
             }
 
+            function update(scores) {
+                console.log(scores);
+                $scope.rounds = scores;
+                $scope.roundNames = Object.keys($scope.rounds);
+                console.log($scope.rounds,$scope.roundNames);
+                page();
+            }
+
             function page() {
-                if (head > $scope.roundNames[$scope.currentRound] - perPage ) {
-                    $scope.currentRound += 1;
-                    $scope.currentRound %= $scope.roundNames.length;
-                    head = 0;                
+                if (!$scope.roundNames.length) {
+                    return;
                 }
+                if (!$scope.roundNames[$scope.currentRound]) {
+                    $scope.currentRound = 0;
+                }
+
                 var round = $scope.roundNames[$scope.currentRound];
-                $scope.round = 'Ronde '+round;
-                $scope.scores = ($scope.rounds[round]||[]).slice(head, head + 10);
-                head + perPage;
-                console.log($scope.currentRound,$scope.scores);
+                console.log(round);
+                if (round) {
+                    $scope.round = 'Ronde '+round;
+                    $scope.scores = ($scope.rounds[round]||[]).slice(head, head + perPage);
+                    head += perPage;
+                    if (head > ($scope.rounds[round]||[]).length) {
+                        $scope.currentRound += 1;
+                        $scope.currentRound %= $scope.roundNames.length;
+                        head = 0;
+                    }
+                    console.log($scope.currentRound,$scope.scores);
+                }
             }
 
             //refresh every 30 seconds
-            $interval(load,30000);
+            // $interval(load,30000);
 
             //turn the page every 5 seconds
             $interval(page,5000);
 
             //initialize
-            load().then(page);
+            // load().then(page);
+            page();
         });
     </script>
 </head>
@@ -67,6 +110,9 @@
     <h1>{{round}}</h1>
     <!-- put one section element around the main content -->
     <section>
+     <!--    <ul ng-repeat="score in scores track by $index">
+            <li>{{score.teamNumber}} {{score.team.name}} {{score.score}}</li>
+        </ul> -->
         <table>
             <tr ng-repeat="score in scores track by $index">
                 <td>{{score.teamNumber}}</td>
